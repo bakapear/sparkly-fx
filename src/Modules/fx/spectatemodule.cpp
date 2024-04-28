@@ -112,6 +112,7 @@ int SpectateModule::OnTabBar()
     ImGui::Text("Client tick: %d", Interfaces::engine_tool->ClientTick());
     ImGui::Text("Server tick: %d", Interfaces::engine_tool->ServerTick());
     ImGui::Text("Host tick: %d", Interfaces::engine_tool->HostTick());
+    ImGui::Text("Demo tick: %d", Interfaces::engine->GetDemoPlaybackTick());
 
     int time = Interfaces::engine_tool->ClientTime();
     ImGui::Text("Client time: %d:%d", time / 60, time % 60);
