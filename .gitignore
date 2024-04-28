@@ -4,3 +4,6 @@
 /cmake-build-debug
 /out
 /.idea
+/mod/addons/*
+/mod/sound
+!/mod/addons/xsdk-base64.vdf
