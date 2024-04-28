@@ -44,6 +44,7 @@ public:
 	virtual bool		IsPaused(void);
 	virtual bool		IsTakingScreenshot(void);
 	virtual bool		IsHLTV(void);
+	virtual void		GetVideoModes(int &nCount, vmode_s *&pModes);
 	virtual const char* GetProductVersionString();
 	virtual void			ExecuteClientCmd(const char* szCmdString);
 	virtual int	GetAppID();
@@ -92,6 +93,7 @@ public:
 	virtual bool		IsPaused(void);
 	virtual bool		IsTakingScreenshot(void);
 	virtual bool		IsHLTV(void);
+	virtual void		GetVideoModes(int &nCount, vmode_s *&pModes);
 	virtual const char* GetProductVersionString();
 	virtual void			ExecuteClientCmd(const char* szCmdString);
 	virtual int	GetAppID();

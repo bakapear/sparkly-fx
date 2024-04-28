@@ -98,6 +98,7 @@ public:
 	virtual void _unk91() = 0;
 	virtual bool		IsTakingScreenshot() = 0;
 	virtual bool		IsHLTV(void) = 0;
+	virtual void		GetVideoModes(int &nCount, vmode_s *&pModes) = 0;
 	virtual void _unk94() = 0;
 	virtual void		GetMainMenuBackgroundName(char* dest, int destlen) = 0;
 	virtual void		SetOcclusionParameters(const OcclusionParams_t& params) = 0;

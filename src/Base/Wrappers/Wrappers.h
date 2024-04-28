@@ -62,6 +62,7 @@ class ConCommandBase;
 class ConCommand;
 class ConVar;
 namespace vgui { Panel; }
+struct vmode_s;
 
 class IEngineClientWrapper
 {
@@ -100,6 +101,7 @@ public:
 	virtual bool		IsPaused(void) = 0;
 	virtual bool		IsTakingScreenshot(void) = 0;
 	virtual bool		IsHLTV(void) = 0;
+	virtual void		GetVideoModes(int &nCount, vmode_s *&pModes) = 0;
 	virtual const char* GetProductVersionString() = 0;
 	virtual void			ExecuteClientCmd(const char* szCmdString) = 0;
 	virtual int	GetAppID() = 0;
