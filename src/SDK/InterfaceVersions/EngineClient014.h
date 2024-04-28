@@ -90,6 +90,7 @@ public:
 	virtual bool		IsRecordingDemo(void) = 0;
 	virtual bool		IsPlayingTimeDemo(void) = 0;
 	virtual int			GetDemoRecordingTick(void) = 0;
+	virtual int			GetDemoPlaybackTick(void) = 0;
 	virtual void _unk86() = 0;
 	virtual int			GetDemoPlaybackStartTick(void) = 0;
 	virtual float		GetDemoPlaybackTimeScale(void) = 0;

@@ -74,6 +74,9 @@ bool IEngineClientWrapper013::IsRecordingDemo() {
 bool IEngineClientWrapper013::IsPlayingTimeDemo() {
 	return m_int->IsPlayingTimeDemo();
 }
+int IEngineClientWrapper013::GetDemoPlaybackTick() {
+	return m_int->GetDemoPlaybackTick();
+}
 bool IEngineClientWrapper013::IsPaused() {
 	return m_int->IsPaused();
 }
@@ -175,6 +178,9 @@ bool IEngineClientWrapper014::IsRecordingDemo() {
 }
 bool IEngineClientWrapper014::IsPlayingTimeDemo() {
 	return m_int->IsPlayingTimeDemo();
+}
+int IEngineClientWrapper014::GetDemoPlaybackTick() {
+	return m_int->GetDemoPlaybackTick();
 }
 bool IEngineClientWrapper014::IsPaused() {
 	return m_int->IsPaused();

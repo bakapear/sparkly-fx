@@ -36,6 +36,7 @@ public:
 	virtual bool		IsPlayingDemo(void);
 	virtual bool		IsRecordingDemo(void);
 	virtual bool		IsPlayingTimeDemo(void);
+	virtual int			GetDemoPlaybackTick(void);
 	virtual bool		IsPaused(void);
 	virtual bool		IsTakingScreenshot(void);
 	virtual bool		IsHLTV(void);
@@ -80,6 +81,7 @@ public:
 	virtual bool		IsPlayingDemo(void);
 	virtual bool		IsRecordingDemo(void);
 	virtual bool		IsPlayingTimeDemo(void);
+	virtual int			GetDemoPlaybackTick(void);
 	virtual bool		IsPaused(void);
 	virtual bool		IsTakingScreenshot(void);
 	virtual bool		IsHLTV(void);
