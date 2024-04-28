@@ -11,4 +11,5 @@ namespace Netvars
 	inline int m_lifeState = 0;
 	inline int m_vecViewOffset = 0;
 	inline int m_vecMins = 0, m_vecMaxs = 0;
+	inline int m_vecVelocity = 0;
 }

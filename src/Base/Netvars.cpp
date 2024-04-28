@@ -14,4 +14,5 @@ void Netvars::GetNetvars()
 	m_iHealth = nv.get_offset("DT_BasePlayer", "m_iHealth");
 	m_lifeState = nv.get_offset("DT_BasePlayer", "m_lifeState");
 	m_vecViewOffset = nv.get_offset("DT_BasePlayer", "localdata", "m_vecViewOffset[0]");
+	m_vecVelocity = nv.get_offset("DT_BasePlayer", "localdata", "m_vecVelocity[0]");
 }
