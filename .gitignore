@@ -1,3 +1,7 @@
 /build
 /.vscode
 /.vs
+
+/mod/addons/*
+/mod/sound
+!/mod/addons/xsdk-base64.vdf
