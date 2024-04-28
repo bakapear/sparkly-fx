@@ -484,6 +484,8 @@ int CRecorder::OnFrameStageNotify()
     if (!ShouldRecordFrame())
         return 0;
 
+    printf("FRAME!\n");
+
     size_t frame_index = m_movie->NextFrameIndex();
     
     // We don't explicitly lock any mutex.

@@ -100,6 +100,17 @@ struct AudioState_t
 	bool m_bIsUnderwater;
 };
 
+//-----------------------------------------------------------------------------
+// Video mode
+//-----------------------------------------------------------------------------
+typedef struct vmode_s
+{
+	int width;
+	int height;
+	int bpp;
+	int refreshRate;
+} vmode_t;
+
 
 //-----------------------------------------------------------------------------
 // Skybox visibility
@@ -425,7 +436,8 @@ public:
 	virtual void		GetMainMenuBackgroundName(char* dest, int destlen) = 0;
 
 	// Get video modes
-	virtual void		GetVideoModes(int& nCount, void*& pModes) = 0;
+	virtual void		GetVideoModes(int& nCount, vmode_s *& pModes) = 0;
+	
 
 	// Occlusion system control
 	virtual void		SetOcclusionParameters(const OcclusionParams_t& params) = 0;
