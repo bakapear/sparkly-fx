@@ -101,6 +101,9 @@ bool IEngineClientWrapper013::IsHLTV() {
 void IEngineClientWrapper013::GetVideoModes(int &nCount, vmode_s *&pModes) {
 	return m_int->GetVideoModes(nCount, pModes);
 }
+void IEngineClientWrapper013::GetVideoModes(int &nCount, vmode_s *&pModes) {
+	return m_int->GetVideoModes(nCount, pModes);
+}
 const char* IEngineClientWrapper013::GetProductVersionString() {
 	return m_int->GetProductVersionString();
 }
@@ -214,6 +217,9 @@ bool IEngineClientWrapper014::IsTakingScreenshot() {
 }
 bool IEngineClientWrapper014::IsHLTV() {
 	return m_int->IsHLTV();
+}
+void IEngineClientWrapper014::GetVideoModes(int &nCount, vmode_s *&pModes) {
+	return m_int->GetVideoModes(nCount, pModes);
 }
 void IEngineClientWrapper014::GetVideoModes(int &nCount, vmode_s *&pModes) {
 	return m_int->GetVideoModes(nCount, pModes);
