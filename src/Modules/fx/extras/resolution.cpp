@@ -1,22 +1,13 @@
 // https://github.com/jooonior/SourceRes
-
-#pragma once
+#include "resolution.h"
+#include "../mainwindow.h"
 
 #include <stdio.h> 
 
-#include <Modules/Menu.h>
 #include <imgui.h>
 
 #include <Base/Interfaces.h>
 #include <SDK/convar.h>
-
-typedef struct vmode_s
-{
-	int width;
-	int height;
-	int bpp;
-	int refreshRate;
-} vmode_t;
 
 const int MAX_MODE_LIST = 512;
 
@@ -120,32 +111,30 @@ static ConCommand sf_set_resolution("sf_set_resolution",
     "Set the current exact windowed resolution\n"
 );
 
-class ResModule : public CModule
+
+void ResModule::StartListening()
 {
-public:
-	ResModule() { }
-	void StartListening() override {
-        Listen(EVENT_MENU, [this] { return OnMenu(); });
-    }
+    MainWindow::OnTabBar.Listen(&ResModule::OnTabBar, this);
+}
 
-private:
-	int OnMenu()
-    {
-        if (ImGui::CollapsingHeader("Resolution"))
-        {
-			static int res[2];
+int ResModule::OnTabBar()
+{
 
-			ImGui::InputInt2("", res);
-			ImGui::SameLine();
+	if (!ImGui::BeginTabItem("Resolution"))
+		return 0;
 
-            if (ImGui::Button("Set Resolution"))
-            {
-            	RegisterResolution(res[0], res[1]);
-				SetResolution(res[0], res[1]);
-            }
-        }
-        return 0;
-    }
-};
+    static int width;
+	static int height;
 
-static ResModule g_set_resolution;
+	ImGui::InputInt("Width", &width, 0);
+	ImGui::InputInt("Height", &height, 0);
+
+    if (ImGui::Button("Set Resolution"))
+	{
+		RegisterResolution(width, height);
+		SetResolution(width, height);
+	}
+
+    ImGui::EndTabItem();
+    return 0;
+}

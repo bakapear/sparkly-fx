@@ -8,3 +8,5 @@ target_sources(xsdk-base PRIVATE
     configmodule.cpp
     mainwindow.cpp
 )
+
+add_subdirectory(extras)
