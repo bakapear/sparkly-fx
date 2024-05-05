@@ -16,6 +16,12 @@ protected:
 
 private:
     int OnTabBar();
+	int OnConfigLoad();
+	int OnConfigSave();
+
+	int m_width;
+	int m_height;
+	bool m_startup;
 };
 
 inline ResModule g_resmodule;

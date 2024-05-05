@@ -9,6 +9,10 @@
 #include <Base/Interfaces.h>
 #include <SDK/convar.h>
 
+#include <nlohmann/json.hpp>
+#include <Helper/json.h>
+#include <Modules/fx/configmodule.h>
+
 const int MAX_MODE_LIST = 512;
 
 static int* GetInternalModeCount(const vmode_s *modeList, int count)
@@ -115,26 +119,55 @@ static ConCommand sf_set_resolution("sf_set_resolution",
 void ResModule::StartListening()
 {
     MainWindow::OnTabBar.Listen(&ResModule::OnTabBar, this);
+	ConfigModule::OnConfigSave.Listen(&ResModule::OnConfigSave, this);
+    ConfigModule::OnConfigLoad.Listen(&ResModule::OnConfigLoad, this);
 }
 
 int ResModule::OnTabBar()
 {
-
 	if (!ImGui::BeginTabItem("Resolution"))
 		return 0;
 
-    static int width;
-	static int height;
+	ImGui::Checkbox("Set on startup", &m_startup);
 
-	ImGui::InputInt("Width", &width, 0);
-	ImGui::InputInt("Height", &height, 0);
+	ImGui::InputInt("Width", &m_width, 0);
+	ImGui::InputInt("Height", &m_height, 0);
 
     if (ImGui::Button("Set Resolution"))
 	{
-		RegisterResolution(width, height);
-		SetResolution(width, height);
+		RegisterResolution(m_width, m_height);
+		SetResolution(m_width, m_height);
 	}
 
     ImGui::EndTabItem();
+    return 0;
+}
+
+int ResModule::OnConfigSave()
+{
+    nlohmann::json j = {
+        {"m_width", m_width},
+		{"m_height", m_height},
+		{"m_startup", m_startup}
+    };
+    ConfigModule::GetOutput().emplace("Resolution", std::move(j));
+    return 0;
+}
+
+int ResModule::OnConfigLoad()
+{
+    const nlohmann::json* j = Helper::FromJson(ConfigModule::GetInput(), "Resolution");
+    if (!j) return 0;
+    
+    Helper::FromJson(j, "m_width", m_width);
+	Helper::FromJson(j, "m_height", m_height);
+	Helper::FromJson(j, "m_startup", m_startup);
+
+	if (m_startup) 
+	{
+		RegisterResolution(m_width, m_height);
+		SetResolution(m_width, m_height);
+	}
+
     return 0;
 }
