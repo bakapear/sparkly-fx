@@ -86,6 +86,9 @@ DWORD WINAPI Base::HookThread(LPVOID Args)
     CModule::StartAll();
     CBaseHook::HookAll();
 
+    // Disable buffering on stdout
+    setbuf(stdout, NULL);
+
     return 0;
 }
 
