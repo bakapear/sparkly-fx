@@ -33,3 +33,11 @@ target_link_libraries(xsdk-base PRIVATE miniz nlohmann_json::nlohmann_json)
 target_include_directories(xsdk-base PRIVATE libspng/spng qoi ffmpipe/include)
 target_compile_definitions(xsdk-base PRIVATE SPNG_USE_MINIZ SPNG_STATIC)
 target_sources(xsdk-base PRIVATE libspng/spng/spng.c ffmpipe/src/ffmpipe.cpp)
+
+add_custom_command(
+	TARGET xsdk-base
+	POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E remove_directory ${CMAKE_SOURCE_DIR}/mod
+	COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:xsdk-base> "${PROJECT_SOURCE_DIR}/mod/addons/xsdk-base.dll"
+    COMMAND ${CMAKE_COMMAND} -E echo "Plugin { file \"addons/xsdk-base\" }" > "${PROJECT_SOURCE_DIR}/mod/addons/xsdk-base.vdf"
+)
