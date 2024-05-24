@@ -140,21 +140,26 @@ int CRecorder::OnTabBar()
 {   
     if (!ImGui::BeginTabItem("Recorder"))
         return 0;
-        
-    bool has_errors = VideoLog::HasErrors();
-    if (has_errors)
+
+    bool clear_error_log = false;
     {
-        ImGui::Text("Error log:"); ImGui::SameLine();
-        if (ImGui::Button("Clear"))
-            VideoLog::Clear();
-        
-        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1,1,0,1));
         auto locked_error_log = VideoLog::GetLog();
-        ImGui::InputTextMultiline("##error_log",
-            locked_error_log->data(), locked_error_log->length(), ImVec2(0,0), ImGuiInputTextFlags_ReadOnly
-        );
-        ImGui::PopStyleColor();
+        if (!locked_error_log->empty())
+        {
+            ImGui::Text("Error log:");
+            ImGui::SameLine();
+            clear_error_log = ImGui::Button("Clear"); // NOTE: Clear() is deferred because VideoLog is locked right now
+            ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1,1,0,1));
+            ImGui::SetNextItemWidth(-1.f); // Ensure that text spans the full width where the label usually appears
+            ImGui::InputTextMultiline("##error_log",
+                locked_error_log->data(), locked_error_log->length(), ImVec2(0,0), ImGuiInputTextFlags_ReadOnly
+            );
+            ImGui::PopStyleColor();
+        }
     }
+
+    if (clear_error_log)
+        VideoLog::Clear();
 
     if (ImGui::Button(IsRecordingMovie() ? "Stop" : "Start"))
         ToggleRecording(m_movie_path);
@@ -492,10 +497,6 @@ int CRecorder::OnFrameStageNotify(ClientFrameStage_t stage)
     // We don't explicitly lock any mutex.
     // Assume that nothing is modified while recording.
     
-    IMatRenderContext* render_ctx = Interfaces::mat_system->GetRenderContext();
-    CViewSetup view_setup;
-    Interfaces::hlclient->GetPlayerView(view_setup);
-
     // If there is only one stream and it has no rendering effects, then take this fast path.
     if (m_movie->GetStreams().size() == 1 && m_movie->GetStreams()[0].stream->GetRenderTweaks().empty())
     {
@@ -509,22 +510,13 @@ int CRecorder::OnFrameStageNotify(ClientFrameStage_t stage)
     }
     
     // Here, many streams exist with different effects, so we will re-render for each of them.
-    float default_fov = view_setup.fov;
     for (auto& [stream, writer] : m_movie->GetStreams())
     {
-        float fov = default_fov;
-        for (auto tweak = stream->begin<CameraTweak>(); tweak != stream->end<CameraTweak>(); ++tweak)
-        {
-            if (tweak->fov_override)
-                fov = tweak->fov;
-        }
-
         g_active_stream.Set(stream);
         g_active_stream.SignalUpdate();
         // Update the materials right now, instead of waiting for the next frame.
         g_active_stream.UpdateMaterials();
-        view_setup.fov = fov;
-        Interfaces::hlclient->RenderView(view_setup, VIEW_CLEAR_COLOR, RENDERVIEW_DRAWVIEWMODEL | RENDERVIEW_DRAWHUD);
+        g_active_stream.RenderView();
         WaitForRenderQueue();
         g_active_stream.DrawDepth();
 
